@@ -4,30 +4,28 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 
 
 import geekbrains.libgdx.base.BaseScreen;
 
 public class MenuScreen extends BaseScreen {
+    private final float V_LEN = 0.5f;
     private Texture img;
     private Vector2 pos;
     private Vector2 v;
-    private Vector2 t;
-    private float positionX;
-    private float positionY;
-    private enum STATE {
-        NONE, MOVE
-    }
-    STATE state = STATE.NONE;
+
+    private Vector2 tmp;
 
     @Override
     public void show() {
         super.show();
         img = new Texture("badlogic.jpg");
-        pos = new Vector2();
-        v = new Vector2(1,1);
+        pos = new Vector2(-0.5f,-0.5f);
+        v = new Vector2();
 
+        tmp = new Vector2();
     }
 
     @Override
@@ -36,15 +34,14 @@ public class MenuScreen extends BaseScreen {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(img, pos.x, pos.y);
+        batch.draw(img, pos.x, pos.y, 1.0f, 1.0f);
         batch.end();
-        if(state != STATE.NONE) {
-
-                pos.add(t.nor());
-
-            if (Math.round(pos.x) == positionX && Math.round(pos.y) == positionY) {
-                state = STATE.NONE;
-            }
+        tmp.set(t);
+        if(tmp.sub(pos).len() <= v.len()) {
+                pos.set(t);
+        }
+        else {
+            pos.add(v);
         }
     }
 
@@ -56,16 +53,8 @@ public class MenuScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        positionY = Gdx.graphics.getHeight() - screenY;
-        positionX = screenX;
-        t = new Vector2(positionX, positionY);
-        t.sub(pos.x, pos.y);
-
-        //  positionX = screenX;
-
-        //pos.set(screenX, Gdx.graphics.getHeight() - screenY);
-        state = STATE.MOVE;
-
+        t.set(screenX, Gdx.graphics.getHeight() - screenY);
+        v.set(t.cpy().sub(pos)).setLength(V_LEN);
         return false;
     }
 
