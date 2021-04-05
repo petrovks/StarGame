@@ -98,42 +98,41 @@ public class BaseScreen implements Screen, InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         System.out.println("TouchDown screenX = " + screenX + " screenY = " + screenY);
-        t.set(screenX,screenBounds.getHalfHeight() - screenY).mul(screenToWorld);
+        t.set(screenX,screenBounds.getHeight() - screenY).mul(screenToWorld);
         touchDown(t,pointer,button);
         return false;
     }
 
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         System.out.println("TouchDown touchX = " + touch.x + " touchY = " + touch.y);
-        t.set(touch.x,screenBounds.getHalfHeight() - touch.y).mul(screenToWorld);
+        t.set(touch.x,screenBounds.getHeight() - touch.y).mul(screenToWorld);
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         System.out.println("TouchUp screenX = " + screenX + " screenY = " + screenY);
-        t.set(screenX,screenBounds.getHalfHeight() - screenY).mul(screenToWorld);
+        t.set(screenX,screenBounds.getHeight() - screenY).mul(screenToWorld);
         touchUp(t,pointer,button);
         return false;
     }
 
     public boolean touchUp(Vector2 touch, int pointer, int button) {
         System.out.println("TouchUp screenX = " + touch.x + " touchY = " + touch.y);
-        t.set(touch.x,screenBounds.getHalfHeight() - touch.y).mul(screenToWorld);
+        t.set(touch.x,screenBounds.getHeight() - touch.y).mul(screenToWorld);
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         System.out.println("TouchDragged screenX = " + screenX + " screenY = " + screenY);
-        t.set(screenX,screenBounds.getHalfHeight() - screenY).mul(screenToWorld);
+        t.set(screenX,screenBounds.getHeight() - screenY).mul(screenToWorld);
         touchDragged(t,pointer);
         return false;
     }
 
     public boolean touchDragged(Vector2 touch, int pointer) {
         System.out.println("TouchDragged screenX = " + touch.x + " touchY = " + touch.y);
-        t.set(touch.x,screenBounds.getHalfHeight() - touch.y).mul(screenToWorld);
         return false;
     }
 
