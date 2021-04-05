@@ -56,6 +56,4 @@ public class MenuScreen extends BaseScreen {
         logo.touchDown(touch, pointer, button);
         return false;
     }
-
-
 }
