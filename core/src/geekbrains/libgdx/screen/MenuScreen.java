@@ -13,9 +13,9 @@ public class MenuScreen extends BaseScreen {
 
     private Texture bg;
     private Texture textureLogo;
-   // private Vector2 pos;
     private Background background;
     private Logo logo;
+
     @Override
     public void show() {
         super.show();
