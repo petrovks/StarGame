@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-
 import geekbrains.libgdx.math.MatrixUtils;
 import geekbrains.libgdx.math.Rect;
 
@@ -103,7 +102,6 @@ public class BaseScreen implements Screen, InputProcessor {
 
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         System.out.println("TouchDown touchX = " + touch.x + " touchY = " + touch.y);
-        t.set(touch.x,screenBounds.getHeight() - touch.y).mul(screenToWorld);
         return false;
     }
 
@@ -117,7 +115,6 @@ public class BaseScreen implements Screen, InputProcessor {
 
     public boolean touchUp(Vector2 touch, int pointer, int button) {
         System.out.println("TouchUp screenX = " + touch.x + " touchY = " + touch.y);
-        t.set(touch.x,screenBounds.getHeight() - touch.y).mul(screenToWorld);
         return false;
     }
 
