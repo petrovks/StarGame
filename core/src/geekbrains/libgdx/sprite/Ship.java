@@ -1,13 +1,14 @@
 package geekbrains.libgdx.sprite;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import geekbrains.libgdx.base.Sprite;
 import geekbrains.libgdx.math.Rect;
-
+import geekbrains.libgdx.pool.BulletPool;
 
 public class Ship extends Sprite {
 
@@ -18,9 +19,9 @@ public class Ship extends Sprite {
     private static final float RELOAD_INTERVAL = 0.15f;
 
     private Rect worldBounds;
-
-
-
+    private BulletPool bulletPool;
+    private TextureRegion bulletRegion;
+    private Vector2 bulletV;
     private final Vector2 v;
     private final Vector2 v0;
 
@@ -32,9 +33,12 @@ public class Ship extends Sprite {
 
     private float reloadTimer;
 
-    public Ship(TextureAtlas atlas) {
-        super(atlas.findRegion("main_ship"), 1, 2, 2);
 
+    public Ship(TextureAtlas atlas, BulletPool bulletPool) {
+        super(atlas.findRegion("main_ship"), 1, 2, 2);
+        this.bulletPool = bulletPool;
+        this.bulletRegion = atlas.findRegion("bulletMainShip");
+        bulletV = new Vector2(0, 0.5f);
         v = new Vector2();
         v0 = new Vector2(0.5f, 0);
     }
@@ -57,8 +61,11 @@ public class Ship extends Sprite {
             setLeft(worldBounds.getLeft());
             stop();
         }
-
-
+        reloadTimer += delta;
+        if (reloadTimer > RELOAD_INTERVAL) {
+            reloadTimer = 0f;
+            shoot();
+        }
     }
 
     @Override
@@ -112,7 +119,7 @@ public class Ship extends Sprite {
                 pressedLeft = true;
                 break;
             case Input.Keys.SPACE:
-
+                shoot();
                 break;
         }
         return false;
@@ -154,6 +161,10 @@ public class Ship extends Sprite {
         v.setZero();
     }
 
+    private void shoot() {
+        Bullet bullet = bulletPool.obtain();
+        bullet.set(this, bulletRegion, this.pos, bulletV, worldBounds, 1, 0.01f);
+    }
 
 }
 
