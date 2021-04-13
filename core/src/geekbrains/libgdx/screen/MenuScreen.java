@@ -12,14 +12,16 @@ import geekbrains.libgdx.sprite.Background;
 import geekbrains.libgdx.sprite.ExitButton;
 import geekbrains.libgdx.sprite.PlayButton;
 import geekbrains.libgdx.sprite.Star;
+import geekbrains.libgdx.sprite.Logo;
 
 public class MenuScreen extends BaseScreen {
 
     private static final int STAR_COUNT = 256;
     private final Game game;
     private Texture bg;
-   // private Vector2 pos;
+    private Texture textureLogo;
     private Background background;
+    private Logo logo;
 
     private TextureAtlas atlas;
     private Star star[];
@@ -34,7 +36,7 @@ public class MenuScreen extends BaseScreen {
     public void show() {
         super.show();
         bg = new Texture("textures/bg.png");
-        //pos = new Vector2(-0.5f,-0.5f);
+        textureLogo = new Texture("badlogic.jpg");
         background = new Background(bg);
         atlas = new TextureAtlas("textures/menuAtlas.tpack");
         star = new Star[STAR_COUNT];
@@ -43,14 +45,17 @@ public class MenuScreen extends BaseScreen {
         }
         exitButton = new ExitButton(atlas);
         playButton = new PlayButton(atlas, game);
+        logo = new Logo(textureLogo);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
+
         for (Star stars : star) {
             stars.update(delta);
         }
+        logo.update(delta);
         Gdx.gl.glClearColor(0.56f, 0.81f, 0.26f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
@@ -60,7 +65,7 @@ public class MenuScreen extends BaseScreen {
         }
         exitButton.draw(batch);
         playButton.draw(batch);
-
+        logo.draw(batch);
         batch.end();
     }
 
@@ -69,6 +74,7 @@ public class MenuScreen extends BaseScreen {
         super.dispose();
         bg.dispose();
         atlas.dispose();
+        textureLogo.dispose();
     }
 
     @Override
@@ -81,14 +87,14 @@ public class MenuScreen extends BaseScreen {
         }
         exitButton.resize(worldBounds);
         playButton.resize(worldBounds);
-
-
+        logo.resize(worldBounds);
     }
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         exitButton.touchDown(touch, pointer, button);
-        playButton.touchDown(touch, pointer, button);
+        playButton.touchDown(touch, pointer, button);    
+        logo.touchDown(touch, pointer, button);
         return false;
     }
 
@@ -96,7 +102,9 @@ public class MenuScreen extends BaseScreen {
     public boolean touchUp(Vector2 touch, int pointer, int button) {
         exitButton.touchUp(touch, pointer, button);
         playButton.touchUp(touch, pointer, button);
-        return false;
+        
     }
+
+
 
 }
