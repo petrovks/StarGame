@@ -3,6 +3,7 @@ package geekbrains.libgdx.base;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
@@ -31,6 +32,10 @@ public class BaseScreen implements Screen, InputProcessor {
         screenToWorld = new Matrix3();
         t = new Vector2();
         Gdx.input.setInputProcessor(this);
+        Music music = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
+        music.setLooping(true);
+        music.setVolume(0.5f);
+        music.play();
     }
 
     @Override
@@ -105,6 +110,7 @@ public class BaseScreen implements Screen, InputProcessor {
         System.out.println("TouchDown touchX = " + touch.x + " touchY = " + touch.y);
         t.set(touch.x,screenBounds.getHeight() - touch.y).mul(screenToWorld);
         return false;
+
     }
 
     @Override
