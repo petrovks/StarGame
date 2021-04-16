@@ -21,7 +21,6 @@ public class BaseScreen implements Screen, InputProcessor {
     private Matrix4 worldToGl;
     private Matrix3 screenToWorld;
 
-
     @Override
     public void show() {
         System.out.println("show");
@@ -49,7 +48,6 @@ public class BaseScreen implements Screen, InputProcessor {
         screenBounds.setLeft(0);
         screenBounds.setBottom(0);
         float aspect = width/ (float) height;
-
         worldBounds.setHeight(1f);
         worldBounds.setWidth(1f*aspect);
         MatrixUtils.calcTransitionMatrix(worldToGl,worldBounds,glBounds);
@@ -110,7 +108,9 @@ public class BaseScreen implements Screen, InputProcessor {
 
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         System.out.println("TouchDown touchX = " + touch.x + " touchY = " + touch.y);
-         return false;
+        t.set(touch.x,screenBounds.getHeight() - touch.y).mul(screenToWorld);
+        return false;
+
     }
 
     @Override
@@ -123,6 +123,7 @@ public class BaseScreen implements Screen, InputProcessor {
 
     public boolean touchUp(Vector2 touch, int pointer, int button) {
         System.out.println("TouchUp screenX = " + touch.x + " touchY = " + touch.y);
+        t.set(touch.x,screenBounds.getHeight() - touch.y).mul(screenToWorld);
         return false;
     }
 
