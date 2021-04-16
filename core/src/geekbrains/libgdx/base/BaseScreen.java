@@ -15,7 +15,7 @@ import geekbrains.libgdx.math.Rect;
 public class BaseScreen implements Screen, InputProcessor {
     protected SpriteBatch batch;
     private Rect screenBounds;
-    private Rect worldBounds;
+    protected Rect worldBounds;
     private Rect glBounds;
     private Vector2 t;
     private Matrix4 worldToGl;

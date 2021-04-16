@@ -9,7 +9,7 @@ import geekbrains.libgdx.base.Sprite;
 import geekbrains.libgdx.math.Rect;
 
 public class Bullet extends Sprite {
-    Sound sound = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
+
     private Rect worldBounds;
     private Vector2 v;
     private int damage;
@@ -36,7 +36,7 @@ public class Bullet extends Sprite {
         this.worldBounds = worldBounds;
         this.damage = damage;
         setHeightProportion(height);
-        sound.play(0.05f);
+
     }
 
     @Override
