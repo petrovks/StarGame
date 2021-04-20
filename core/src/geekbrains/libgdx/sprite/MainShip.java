@@ -17,7 +17,7 @@ public class MainShip extends Ship {
 
     private static final float HEIGHT = 0.15f;
     private static final float PADDING = 0.05f;
-
+    private static final int HP = 100;
     private static final int INVALID_POINTER = -1;
 
 
@@ -42,7 +42,7 @@ public class MainShip extends Ship {
         reloadInterval = 0.2f;
         damage = 1;
         bulletHeight = 0.01f;
-        hp = 100;
+        hp = HP;
     }
 
     @Override
@@ -160,6 +160,17 @@ public class MainShip extends Ship {
                 || bullet.getLeft() > getRight()
                 || bullet.getBottom() > pos.y
                 || bullet.getTop() < getBottom());
+    }
+
+    public void startNewGame() {
+        pressedLeft = false;
+        pressedRight = false;
+        leftPointer = INVALID_POINTER;
+        rightPointer = INVALID_POINTER;
+        stop();
+        this.pos.x = worldBounds.pos.x;
+        hp = HP;
+        flushDestroy();
     }
 }
 
