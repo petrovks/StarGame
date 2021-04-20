@@ -9,19 +9,26 @@ import geekbrains.libgdx.base.Sprite;
 import geekbrains.libgdx.math.Rect;
 import geekbrains.libgdx.math.Rnd;
 import geekbrains.libgdx.pool.BulletPool;
+import geekbrains.libgdx.pool.ExplosionPool;
 
 
 public class EnemyShip extends Ship {
 
-    public EnemyShip(BulletPool bulletPool, Rect worldBounds, Sound sound) {
+    public EnemyShip(BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds, Sound sound) {
         this.bulletPool = bulletPool;
         this.sound = sound;
         this.worldBounds = worldBounds;
+        this.explosionPool = explosionPool;
     }
 
     @Override
     public void update(float delta) {
         super.update(delta);
+        if (getTop() < worldBounds.getTop()) {
+            v.set(v0);
+        } else {
+            reloadTimer = reloadInterval * 0.8f;
+        }
         if (getBottom() < worldBounds.getBottom()) {
             destroy();
     }
@@ -38,7 +45,8 @@ public class EnemyShip extends Ship {
                     int hp
     ) {
         this.regions = regions;
-        this.v.set(v);
+        this.v0.set(v);
+        this.v.set(0, -0.3f);
         this.bulletRegion = bulletRegion;
         this.bulletHeight = bulletHeight;
         this.bulletV.set(0, bulletVY);
@@ -46,6 +54,12 @@ public class EnemyShip extends Ship {
         this.reloadInterval = reloadInterval;
         setHeightProportion(height);
         this.hp = hp;
+    }
 
+    public boolean isBulletCollision(Rect bullet) {
+        return !(bullet.getRight() < getLeft()
+                || bullet.getLeft() > getRight()
+                || bullet.getBottom() > getTop()
+                || bullet.getTop() < pos.y);
     }
 }
