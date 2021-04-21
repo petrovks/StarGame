@@ -83,7 +83,7 @@ public class EnemyEmitter {
                         ENEMY_SMALL_BULLET_DAMAGE * level,
                         ENEMY_SMALL_RELOAD_INTERVAL,
                         ENEMY_SMALL_HEIGHT,
-                        ENEMY_SMALL_HP
+                        ENEMY_SMALL_HP * level
                 );
             } else if (type < 0.8f) {
                 enemyShip.set(
@@ -95,7 +95,7 @@ public class EnemyEmitter {
                         ENEMY_MEDIUM_BULLET_DAMAGE * level,
                         ENEMY_MEDIUM_RELOAD_INTERVAL,
                         ENEMY_MEDIUM_HEIGHT,
-                        ENEMY_MEDIUM_HP
+                        ENEMY_MEDIUM_HP * level
                 );
             } else {
                 enemyShip.set(
@@ -107,7 +107,7 @@ public class EnemyEmitter {
                         ENEMY_BIG_BULLET_DAMAGE * level,
                         ENEMY_BIG_RELOAD_INTERVAL,
                         ENEMY_BIG_HEIGHT,
-                        ENEMY_BIG_HP
+                        ENEMY_BIG_HP * level
                 );
             }
             enemyShip.pos.x = Rnd.nextFloat(
