@@ -245,6 +245,7 @@ public class GameScreen extends BaseScreen {
         font.draw(batch, sbFrags.append(FRAGS).append(frags), worldBounds.getLeft() + PADDING, worldBounds.getTop() - PADDING);
         font.draw(batch, sbHP.append(HP).append(mainShip.getHp()), worldBounds.pos.x - PADDING, worldBounds.getTop() - PADDING, Align.center);
         font.draw(batch, sbLevel.append(LEVEL).append(enemyEmitter.getLevel()), worldBounds.getRight() - PADDING, worldBounds.getTop() - PADDING, Align.right);
+        mainShip.setLevel(enemyEmitter.getLevel());
     }
 }
 

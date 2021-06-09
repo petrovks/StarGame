@@ -7,11 +7,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-
 import geekbrains.libgdx.base.Sprite;
 import geekbrains.libgdx.math.Rect;
 import geekbrains.libgdx.pool.BulletPool;
 import geekbrains.libgdx.pool.ExplosionPool;
+import geekbrains.libgdx.utils.EnemyEmitter;
 
 public class MainShip extends Ship {
 
@@ -20,16 +20,14 @@ public class MainShip extends Ship {
     private static final int HP = 100;
     private static final int INVALID_POINTER = -1;
 
-
-
     private boolean pressedLeft;
     private boolean pressedRight;
 
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
 
-
-
+    private int level = 1;
+    private boolean isChangeLevel = false;
 
     public MainShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool, Sound sound) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
@@ -62,6 +60,10 @@ public class MainShip extends Ship {
         if (getLeft() < worldBounds.getLeft()) {
             setLeft(worldBounds.getLeft());
             stop();
+        }
+        if (level % 2 == 0 && isChangeLevel) {
+            reloadInterval -= 0.02f;
+            isChangeLevel = false;
         }
     }
 
@@ -171,6 +173,34 @@ public class MainShip extends Ship {
         this.pos.x = worldBounds.pos.x;
         hp = HP;
         flushDestroy();
+    }
+
+    @Override
+    protected void shoot() {
+        Vector2 v1 = new Vector2();
+        v1.set(bulletV.x, bulletV.y+ (float)level/10);
+
+        if (level > 5){
+            Bullet bullet = bulletPool.obtain();
+            Bullet bullet1 = bulletPool.obtain();
+            Vector2 m = new Vector2();
+            m.set(this.pos.x + 0.035f , this.pos.y);
+            bullet.set(this, bulletRegion, m, v1, worldBounds, damage, bulletHeight);
+            m.set(this.pos.x - 0.035f , this.pos.y);
+            bullet1.set(this, bulletRegion, m, v1, worldBounds, damage, bulletHeight);
+        }
+        else {
+            Bullet bullet = bulletPool.obtain();
+            bullet.set(this, bulletRegion, this.pos, v1, worldBounds, damage, bulletHeight);
+        }
+        sound.play(0.05f);
+    }
+
+    public void setLevel(int level) {
+        if (this.level != level){
+            this.level = level;
+            isChangeLevel = true;
+        }
     }
 }
 
